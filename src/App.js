@@ -37,13 +37,20 @@ class App extends Component {
   }
 
   deleteExperience() {
+    const componentNumber = this.state.experienceComponents.length;
+
     this.setState({
+      ["position" + componentNumber]: undefined,
+      ["company" + componentNumber]: undefined,
+      ["work_city" + componentNumber]: undefined,
+      ["work_start" + componentNumber]: undefined,
+      ["work_end" + componentNumber]: undefined,
       experienceComponents: this.state.experienceComponents.slice(0, -1),
     });
   }
 
   addEducation() {
-    const componentNumber = this.state.experienceComponents.length + 1;
+    const componentNumber = this.state.educationComponents.length + 1;
     this.setState({
       educationComponents: this.state.educationComponents.concat(
         <InputContainer
@@ -65,7 +72,15 @@ class App extends Component {
   }
 
   deleteEducation() {
+    const componentNumber = this.state.educationComponents.length;
+
     this.setState({
+      ["university_name" + componentNumber]: undefined,
+      ["education_city" + componentNumber]: undefined,
+      ["degree" + componentNumber]: undefined,
+      ["subject" + componentNumber]: undefined,
+      ["education_start" + componentNumber]: undefined,
+      ["education_end" + componentNumber]: undefined,
       educationComponents: this.state.educationComponents.slice(0, -1),
     });
   }
@@ -112,7 +127,7 @@ class App extends Component {
               name="Add Experience"
               color="dark"
             />
-
+            {console.log(this.state)}
             <Button
               onClick={this.deleteExperience}
               name="Delete Experience"

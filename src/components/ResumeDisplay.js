@@ -25,7 +25,7 @@ class ResumeDisplay extends Component {
                 Experience
               </div>
               {this.props.state.experienceComponents.map((item, index) => (
-                <div key={item} className="mb-3">
+                <div key={index} className="mb-3">
                   {this.props.state["position" + (index + 1)]}
                   <span>, </span>
                   {this.props.state["company" + (index + 1)]}
@@ -43,7 +43,7 @@ class ResumeDisplay extends Component {
                 Education
               </div>
               {this.props.state.educationComponents.map((item, index) => (
-                <div key={item} className="mb-3">
+                <div key={index} className="mb-3">
                   {this.props.state["university_name" + (index + 1)]}
                   <span>, </span>
                   {this.props.state["education_city" + (index + 1)]}
