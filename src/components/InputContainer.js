@@ -9,9 +9,8 @@ class InputContainer extends Component {
         {this.props.data.map((item) => (
           <Input
             key={item}
-            name={this.props.name}
-            number={this.props.number}
-            data={item}
+            dataName={item}
+            statePropertyName={item + this.props.number}
             setState={this.props.setState}
           />
         ))}

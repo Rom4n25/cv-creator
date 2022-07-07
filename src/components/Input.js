@@ -2,20 +2,19 @@ import React, { Component } from "react";
 
 class Input extends Component {
   changeEffect = (e) => {
-    const data =
-      this.props.data.toLowerCase().replace(/\s/g, "_") + this.props.number;
-    this.props.setState({ [data]: e.target.value });
+    const propertyName = this.props.statePropertyName
+      .toLowerCase()
+      .replace(/\s/g, "_");
+    this.props.setState({ [propertyName]: e.target.value });
   };
 
   render() {
     return (
       <div className="input-group">
         <input
-          type="text"
           className="form-control mt-3"
-          name={this.props.data}
           onChange={this.changeEffect}
-          placeholder={this.props.data}
+          placeholder={this.props.dataName}
         ></input>
       </div>
     );

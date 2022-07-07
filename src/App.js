@@ -3,6 +3,7 @@ import ResumeDisplay from "./components/ResumeDisplay";
 import InputContainer from "./components/InputContainer";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Button from "./components/Button";
 
 class App extends Component {
   constructor() {
@@ -21,14 +22,14 @@ class App extends Component {
   }
 
   addExperience() {
+    const componentNumber = this.state.exp_display.length + 1;
     this.setState({
       exp_display: this.state.exp_display.concat(
         <InputContainer
-          key={this.state.exp_display.length + 1}
+          key={componentNumber}
           name="Experience"
-          number={this.state.exp_display.length + 1}
+          number={componentNumber}
           data={["Position", "Company", "Work city", "Work start", "Work end"]}
-          state={this.state}
           setState={this.setState}
         />
       ),
@@ -40,12 +41,13 @@ class App extends Component {
   }
 
   addEducation() {
+    const componentNumber = this.state.exp_display.length + 1;
     this.setState({
       edu_display: this.state.edu_display.concat(
         <InputContainer
-          key={this.state.edu_display.length + 1}
+          key={componentNumber}
           name="Education"
-          number={this.state.edu_display.length + 1}
+          number={componentNumber}
           data={[
             "University name",
             "Education City",
@@ -54,7 +56,6 @@ class App extends Component {
             "Education start",
             "Education end",
           ]}
-          state={this.state}
           setState={this.setState}
         />
       ),
@@ -97,47 +98,38 @@ class App extends Component {
                 "Phone number",
                 "Email",
               ]}
-              state={this.state}
               setState={this.setState}
             />
             {this.state.exp_display.map((item) => item)}
-            <button
-              type="button"
-              className="btn btn-dark btn-sm btn-block w-100 rounded-0"
+            <Button
               onClick={this.addExperience}
-            >
-              Add Experience
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger btn-sm btn-block w-100 rounded-0"
+              name="Add Experience"
+              color="dark"
+            />
+
+            <Button
               onClick={this.deleteExperience}
-            >
-              Delete Experience
-            </button>
+              name="Delete Experience"
+              color="danger"
+            />
 
             {this.state.edu_display.map((item) => item)}
-            <button
-              type="button"
-              className="btn btn-dark btn-sm btn-block w-100 rounded-0"
+            <Button
               onClick={this.addEducation}
-            >
-              Add Education
-            </button>
-            <button
-              type="button"
-              className="btn btn-danger btn-sm btn-block w-100 rounded-0"
+              name="Add Education"
+              color="dark"
+            />
+            <Button
               onClick={this.deleteEducation}
-            >
-              Delete Education
-            </button>
-            <button
-              type="button"
-              className="btn btn-success btn-sm btn-block w-100 rounded-0"
+              name="Delete Education"
+              color="danger"
+            />
+
+            <Button
               onClick={this.generatePdf}
-            >
-              Generate PDF
-            </button>
+              name="Delete Education"
+              color="success"
+            />
           </div>
           <div className="col-sm p-0">
             <ResumeDisplay state={this.state} />
