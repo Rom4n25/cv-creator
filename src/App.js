@@ -148,7 +148,7 @@ class App extends Component {
 
             <Button
               onClick={this.generatePdf}
-              name="Delete Education"
+              name="Generate PDF"
               color="success"
             />
           </div>
