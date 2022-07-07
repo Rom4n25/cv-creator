@@ -9,8 +9,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      exp_display: [],
-      edu_display: [],
+      experienceComponents: [],
+      educationComponents: [],
     };
 
     this.setState = this.setState.bind(this);
@@ -22,9 +22,9 @@ class App extends Component {
   }
 
   addExperience() {
-    const componentNumber = this.state.exp_display.length + 1;
+    const componentNumber = this.state.experienceComponents.length + 1;
     this.setState({
-      exp_display: this.state.exp_display.concat(
+      experienceComponents: this.state.experienceComponents.concat(
         <InputContainer
           key={componentNumber}
           name="Experience"
@@ -37,13 +37,15 @@ class App extends Component {
   }
 
   deleteExperience() {
-    this.setState({ exp_display: this.state.exp_display.slice(0, -1) });
+    this.setState({
+      experienceComponents: this.state.experienceComponents.slice(0, -1),
+    });
   }
 
   addEducation() {
-    const componentNumber = this.state.exp_display.length + 1;
+    const componentNumber = this.state.experienceComponents.length + 1;
     this.setState({
-      edu_display: this.state.edu_display.concat(
+      educationComponents: this.state.educationComponents.concat(
         <InputContainer
           key={componentNumber}
           name="Education"
@@ -63,7 +65,9 @@ class App extends Component {
   }
 
   deleteEducation() {
-    this.setState({ edu_display: this.state.edu_display.slice(0, -1) });
+    this.setState({
+      educationComponents: this.state.educationComponents.slice(0, -1),
+    });
   }
 
   componentDidMount() {
@@ -82,15 +86,15 @@ class App extends Component {
   }
 
   render() {
+    const experienceComponents = this.state.experienceComponents;
+    const educationComponents = this.state.educationComponents;
     return (
       <div className="container-fluid">
-        <div className="row bg-info" style={{ height: "120px" }}></div>
+        <header className="row bg-info p-5"></header>
         <div className="row">
           <div className="col-sm p-0 mb-5">
             <InputContainer
-              key="details"
               name="Personal Details"
-              number=""
               data={[
                 "First name",
                 "Last name",
@@ -98,9 +102,11 @@ class App extends Component {
                 "Phone number",
                 "Email",
               ]}
+              number=""
+              key="details"
               setState={this.setState}
             />
-            {this.state.exp_display.map((item) => item)}
+            {experienceComponents.map((component) => component)}
             <Button
               onClick={this.addExperience}
               name="Add Experience"
@@ -113,7 +119,7 @@ class App extends Component {
               color="danger"
             />
 
-            {this.state.edu_display.map((item) => item)}
+            {educationComponents.map((component) => component)}
             <Button
               onClick={this.addEducation}
               name="Add Education"
