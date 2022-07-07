@@ -105,7 +105,7 @@ class App extends Component {
     const educationComponents = this.state.educationComponents;
     return (
       <div className="container-fluid">
-        <header className="row bg-info p-5"></header>
+        <header className="row bg-info p-3">CV GENERATOR</header>
         <div className="row">
           <div className="col-sm p-0 mb-5">
             <InputContainer
