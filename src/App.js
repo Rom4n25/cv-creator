@@ -9,8 +9,21 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      personalDetails: [
+        {
+          id: 0,
+          name: "",
+          surname: "",
+          address: "",
+          phone: "",
+          email: "",
+        },
+      ],
+      experienceData: [],
+      educationData: [],
       experienceComponents: [],
       educationComponents: [],
+      photo: "",
     };
 
     this.setState = this.setState.bind(this);
@@ -19,68 +32,84 @@ class App extends Component {
     this.deleteExperience = this.deleteExperience.bind(this);
     this.deleteEducation = this.deleteEducation.bind(this);
     this.generatePdf = this.generatePdf.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
   }
 
   addExperience() {
-    const componentNumber = this.state.experienceComponents.length + 1;
-    this.setState({
-      experienceComponents: this.state.experienceComponents.concat(
-        <InputContainer
-          key={componentNumber}
-          name="Experience"
-          number={componentNumber}
-          data={["Position", "Company", "Work city", "Work start", "Work end"]}
-          setState={this.setState}
-        />
-      ),
-    });
+    const componentNumber = this.state.experienceComponents.length;
+
+    const experience = {
+      id: componentNumber,
+      position: "",
+      company: "",
+      city: "",
+      from: "",
+      to: "",
+    };
+
+    this.setState(
+      {
+        experienceData: this.state.experienceData.concat(experience),
+      },
+      () => {
+        this.setState({
+          experienceComponents: this.state.experienceComponents.concat(
+            <InputContainer
+              name="Experience"
+              storage="experienceData"
+              data={experience}
+              key={componentNumber}
+              setState={this.setState}
+            />
+          ),
+        });
+      }
+    );
   }
 
   deleteExperience() {
-    const componentNumber = this.state.experienceComponents.length;
-
     this.setState({
-      ["position" + componentNumber]: undefined,
-      ["company" + componentNumber]: undefined,
-      ["work_city" + componentNumber]: undefined,
-      ["work_start" + componentNumber]: undefined,
-      ["work_end" + componentNumber]: undefined,
+      experienceData: this.state.experienceData.slice(0, -1),
       experienceComponents: this.state.experienceComponents.slice(0, -1),
     });
   }
 
   addEducation() {
-    const componentNumber = this.state.educationComponents.length + 1;
-    this.setState({
-      educationComponents: this.state.educationComponents.concat(
-        <InputContainer
-          key={componentNumber}
-          name="Education"
-          number={componentNumber}
-          data={[
-            "University name",
-            "Education City",
-            "Degree",
-            "Subject",
-            "Education start",
-            "Education end",
-          ]}
-          setState={this.setState}
-        />
-      ),
-    });
+    const componentNumber = this.state.educationComponents.length;
+
+    const education = {
+      id: componentNumber,
+      university: "",
+      city: "",
+      degree: "",
+      subject: "",
+      from: "",
+      to: "",
+    };
+
+    this.setState(
+      {
+        educationData: this.state.educationData.concat(education),
+      },
+      () => {
+        this.setState({
+          educationComponents: this.state.educationComponents.concat(
+            <InputContainer
+              name="Education"
+              storage="educationData"
+              data={education}
+              key={componentNumber}
+              setState={this.setState}
+            />
+          ),
+        });
+      }
+    );
   }
 
   deleteEducation() {
-    const componentNumber = this.state.educationComponents.length;
-
     this.setState({
-      ["university_name" + componentNumber]: undefined,
-      ["education_city" + componentNumber]: undefined,
-      ["degree" + componentNumber]: undefined,
-      ["subject" + componentNumber]: undefined,
-      ["education_start" + componentNumber]: undefined,
-      ["education_end" + componentNumber]: undefined,
+      educationData: this.state.educationData.slice(0, -1),
       educationComponents: this.state.educationComponents.slice(0, -1),
     });
   }
@@ -100,6 +129,15 @@ class App extends Component {
     });
   }
 
+  uploadFile() {
+    const file = document.getElementById("file").files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({ photo: e.target.result });
+    };
+    reader.readAsDataURL(file);
+  }
+
   render() {
     const experienceComponents = this.state.experienceComponents;
     const educationComponents = this.state.educationComponents;
@@ -110,15 +148,8 @@ class App extends Component {
           <div className="col-sm p-0 mb-5">
             <InputContainer
               name="Personal Details"
-              data={[
-                "First name",
-                "Last name",
-                "Address",
-                "Phone number",
-                "Email",
-              ]}
-              number=""
-              key="details"
+              storage="personalDetails"
+              data={this.state.personalDetails[0]}
               setState={this.setState}
             />
             {experienceComponents.map((component) => component)}
@@ -127,13 +158,11 @@ class App extends Component {
               name="Add Experience"
               color="dark"
             />
-            {console.log(this.state)}
             <Button
               onClick={this.deleteExperience}
               name="Delete Experience"
               color="danger"
             />
-
             {educationComponents.map((component) => component)}
             <Button
               onClick={this.addEducation}
@@ -144,6 +173,20 @@ class App extends Component {
               onClick={this.deleteEducation}
               name="Delete Education"
               color="danger"
+            />
+
+            <div className="m-0 ">
+              <input
+                className="form-control rounded-0"
+                type="file"
+                id="file"
+              ></input>
+            </div>
+
+            <Button
+              onClick={this.uploadFile}
+              name="Upload Photo"
+              color="info"
             />
 
             <Button

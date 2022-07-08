@@ -15,47 +15,53 @@ class ResumeDisplay extends Component {
             style={{ height: "15%" }}
           >
             <p className="fs-1 fw-bold m-0 text-white">
-              {this.props.state.first_name} {this.props.state.last_name}
+              {this.props.state.personalDetails[0].name}{" "}
+              {this.props.state.personalDetails[0].surname}
             </p>
           </div>
 
           <div className="row p-0 m-0 bg-white" style={{ height: "85%" }}>
             <div className="col-sm-8 p-3 ">
-              <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
-                Experience
-              </div>
-              {this.props.state.experienceComponents.map((item, index) => (
+              {this.props.state.experienceData.length > 0 ? (
+                <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
+                  Experience
+                </div>
+              ) : null}
+
+              {this.props.state.experienceData.map((experience, index) => (
                 <div key={index} className="mb-3">
-                  {this.props.state["position" + (index + 1)]}
+                  {experience.position}
                   <span>, </span>
-                  {this.props.state["company" + (index + 1)]}
+                  {experience.company}
                   <span>, </span>
-                  {this.props.state["work_city" + (index + 1)]}
+                  {experience.city}
                   <div>
-                    {this.props.state["work_start" + (index + 1)]}
+                    {experience.from}
                     <span> - </span>
-                    {this.props.state["work_end" + (index + 1)]}
+                    {experience.to}
                   </div>
                 </div>
               ))}
+              {this.props.state.educationData.length > 0 ? (
+                <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
+                  Education
+                </div>
+              ) : null}
 
-              <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
-                Education
-              </div>
-              {this.props.state.educationComponents.map((item, index) => (
+              {this.props.state.educationData.map((education, index) => (
                 <div key={index} className="mb-3">
-                  {this.props.state["university_name" + (index + 1)]}
+                  {education.university}
                   <span>, </span>
-                  {this.props.state["education_city" + (index + 1)]}
+                  {education.city}
                   <div>
-                    {this.props.state["degree" + (index + 1)]}
+                    {education.degree}
                     <span>, </span>
-                    {this.props.state["subject" + (index + 1)]}
+                    {education.subject}
                   </div>
                   <div>
-                    {this.props.state["education_start" + (index + 1)]}
+                    {education.from}
                     <span> - </span>
-                    {this.props.state["education_end" + (index + 1)]}
+                    {education.to}
                   </div>
                 </div>
               ))}
@@ -66,17 +72,21 @@ class ResumeDisplay extends Component {
                 <img
                   alt="person_image"
                   className="img-thumbnail"
-                  src={image}
+                  src={
+                    this.props.state.photo.length === 0
+                      ? image
+                      : this.props.state.photo
+                  }
                   width={200}
                   height={200}
                 ></img>
                 <p className="h5 fw-bold mt-4 mb-3">Personal details</p>
                 <p className="m-0 fw-bold">Address</p>
-                <p>{this.props.state.address}</p>
+                <p>{this.props.state.personalDetails[0].address}</p>
                 <p className="m-0 fw-bold">Phone number</p>
-                <p>{this.props.state.phone_number}</p>
+                <p>{this.props.state.personalDetails[0].phone}</p>
                 <p className="m-0 fw-bold">E-mail</p>
-                <p>{this.props.state.email}</p>
+                <p>{this.props.state.personalDetails[0].email}</p>
               </div>
             </div>
           </div>
