@@ -8,13 +8,7 @@ class InputContainer extends Component {
         <div>{this.props.name}</div>
         {Object.keys(this.props.data).map((item) =>
           item !== "id" ? (
-            <Input
-              key={item}
-              name={item}
-              storage={this.props.storage}
-              id={this.props.data.id}
-              setState={this.props.setState}
-            />
+            <Input key={item} name={item} onChange={this.props.onChange} />
           ) : null
         )}
       </div>

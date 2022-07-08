@@ -11,7 +11,6 @@ class App extends Component {
     this.state = {
       personalDetails: [
         {
-          id: 0,
           name: "",
           surname: "",
           address: "",
@@ -19,10 +18,8 @@ class App extends Component {
           email: "",
         },
       ],
-      experienceData: [],
-      educationData: [],
-      experienceComponents: [],
-      educationComponents: [],
+      experience: [],
+      education: [],
       photo: "",
     };
 
@@ -33,13 +30,11 @@ class App extends Component {
     this.deleteEducation = this.deleteEducation.bind(this);
     this.generatePdf = this.generatePdf.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
+    this.changeEffect = this.changeEffect.bind(this);
   }
 
   addExperience() {
-    const componentNumber = this.state.experienceComponents.length;
-
     const experience = {
-      id: componentNumber,
       position: "",
       company: "",
       city: "",
@@ -47,38 +42,19 @@ class App extends Component {
       to: "",
     };
 
-    this.setState(
-      {
-        experienceData: this.state.experienceData.concat(experience),
-      },
-      () => {
-        this.setState({
-          experienceComponents: this.state.experienceComponents.concat(
-            <InputContainer
-              name="Experience"
-              storage="experienceData"
-              data={experience}
-              key={componentNumber}
-              setState={this.setState}
-            />
-          ),
-        });
-      }
-    );
+    this.setState({
+      experience: this.state.experience.concat(experience),
+    });
   }
 
   deleteExperience() {
     this.setState({
-      experienceData: this.state.experienceData.slice(0, -1),
-      experienceComponents: this.state.experienceComponents.slice(0, -1),
+      experience: this.state.experience.slice(0, -1),
     });
   }
 
   addEducation() {
-    const componentNumber = this.state.educationComponents.length;
-
     const education = {
-      id: componentNumber,
       university: "",
       city: "",
       degree: "",
@@ -87,30 +63,14 @@ class App extends Component {
       to: "",
     };
 
-    this.setState(
-      {
-        educationData: this.state.educationData.concat(education),
-      },
-      () => {
-        this.setState({
-          educationComponents: this.state.educationComponents.concat(
-            <InputContainer
-              name="Education"
-              storage="educationData"
-              data={education}
-              key={componentNumber}
-              setState={this.setState}
-            />
-          ),
-        });
-      }
-    );
+    this.setState({
+      education: this.state.education.concat(education),
+    });
   }
 
   deleteEducation() {
     this.setState({
-      educationData: this.state.educationData.slice(0, -1),
-      educationComponents: this.state.educationComponents.slice(0, -1),
+      education: this.state.education.slice(0, -1),
     });
   }
 
@@ -138,9 +98,17 @@ class App extends Component {
     reader.readAsDataURL(file);
   }
 
+  changeEffect(e, storageName, id) {
+    this.setState((prevState) => ({
+      [storageName]: prevState[storageName].map((item, index) =>
+        id === index
+          ? Object.assign(item, { [e.target.name]: e.target.value })
+          : item
+      ),
+    }));
+  }
+
   render() {
-    const experienceComponents = this.state.experienceComponents;
-    const educationComponents = this.state.educationComponents;
     return (
       <div className="container-fluid">
         <header className="row bg-info p-3">CV GENERATOR</header>
@@ -148,30 +116,43 @@ class App extends Component {
           <div className="col-sm p-0 mb-5">
             <InputContainer
               name="Personal Details"
-              storage="personalDetails"
               data={this.state.personalDetails[0]}
-              setState={this.setState}
+              onChange={(e) => this.changeEffect(e, "personalDetails", 0)}
             />
-            {experienceComponents.map((component) => component)}
+            {this.state.experience.map((item, index) => (
+              <InputContainer
+                name="Experience"
+                data={item}
+                key={index}
+                onChange={(e) => this.changeEffect(e, "experience", index)}
+              />
+            ))}
             <Button
-              onClick={this.addExperience}
               name="Add Experience"
+              onClick={this.addExperience}
               color="dark"
             />
             <Button
-              onClick={this.deleteExperience}
               name="Delete Experience"
+              onClick={this.deleteExperience}
               color="danger"
             />
-            {educationComponents.map((component) => component)}
+            {this.state.education.map((item, index) => (
+              <InputContainer
+                name="Education"
+                data={item}
+                key={index}
+                onChange={(e) => this.changeEffect(e, "education", index)}
+              />
+            ))}
             <Button
-              onClick={this.addEducation}
               name="Add Education"
+              onClick={this.addEducation}
               color="dark"
             />
             <Button
-              onClick={this.deleteEducation}
               name="Delete Education"
+              onClick={this.deleteEducation}
               color="danger"
             />
 
@@ -184,14 +165,14 @@ class App extends Component {
             </div>
 
             <Button
-              onClick={this.uploadFile}
               name="Upload Photo"
+              onClick={this.uploadFile}
               color="info"
             />
 
             <Button
-              onClick={this.generatePdf}
               name="Generate PDF"
+              onClick={this.generatePdf}
               color="success"
             />
           </div>

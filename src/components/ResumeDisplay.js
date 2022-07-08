@@ -22,13 +22,13 @@ class ResumeDisplay extends Component {
 
           <div className="row p-0 m-0 bg-white" style={{ height: "85%" }}>
             <div className="col-sm-8 p-3 ">
-              {this.props.state.experienceData.length > 0 ? (
+              {this.props.state.experience.length > 0 ? (
                 <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
                   Experience
                 </div>
               ) : null}
 
-              {this.props.state.experienceData.map((experience, index) => (
+              {this.props.state.experience.map((experience, index) => (
                 <div key={index} className="mb-3">
                   {experience.position}
                   <span>, </span>
@@ -42,13 +42,13 @@ class ResumeDisplay extends Component {
                   </div>
                 </div>
               ))}
-              {this.props.state.educationData.length > 0 ? (
+              {this.props.state.education.length > 0 ? (
                 <div className="h5 pb-1 fw-bold mt-4 mb-3 border-bottom border-dark">
                   Education
                 </div>
               ) : null}
 
-              {this.props.state.educationData.map((education, index) => (
+              {this.props.state.education.map((education, index) => (
                 <div key={index} className="mb-3">
                   {education.university}
                   <span>, </span>
